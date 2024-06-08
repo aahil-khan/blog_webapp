@@ -13,7 +13,7 @@ let headings=[];
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.get("/",(req,res)=>{
-    res.render(__dirname+"/views/index.ejs",{post_count:post_count});
+    res.render(__dirname+"/views/index.ejs",{post_count:post_count,headings:headings});
 })
 
 app.post("/newpost",(req,res)=>{
@@ -29,10 +29,26 @@ app.post("/create_new_post",(req,res)=>{
     );
 })
 
-app.post("/view_post",(req,res)=>{
-    console.log(req.body);
-    res.render(__dirname+"/views/view_post.ejs",
+app.post("/action_on_post",(req,res)=>{
+    if(req.body["action"].slice(0,4)=="post"){
+        res.render(__dirname+"/views/view_post.ejs",
         {display_content:post_content[Number(req.body['action'].slice(4))-1]})
+    }
+    else if(req.body["action"].slice(0,4)=="edit"){
+        res.render(__dirname+"/views/edit_post.ejs",
+            {display_content:post_content[Number(req.body['action'].slice(4))-1],
+                i:Number(req.body['action'].slice(4))
+            }
+        )
+    }
+})
+
+
+app.post("/edit_post",(req,res)=>{
+    post_content[Number(req.body["action"].slice(4))-1]=req.body["edited_content"];
+    res.render(__dirname+"/views/index.ejs",
+        {blogedited:"yes",post_count:post_count,headings:headings}
+    );
 })
 
 
