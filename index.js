@@ -31,18 +31,23 @@ app.post("/create_new_post",(req,res)=>{
     );
 })
 
+
+
 app.post("/action_on_post",(req,res)=>{
-    if(req.body["action"].slice(0,4)=="post"){
+    let action = req.body["action"].slice(0,4);
+    let index = Number(req.body['action'].slice(4));
+    
+    if(action=="post"){
         res.render(__dirname+"/views/view_post.ejs",
-        {display_content:post_content[Number(req.body['action'].slice(4))],
-            heading:headings[Number(req.body['action'].slice(4))]
+        {display_content:post_content[index],
+            heading:headings[index]
         })
     }
-    else if(req.body["action"].slice(0,4)=="edit"){
+    else if(action=="edit"){
         res.render(__dirname+"/views/edit_post.ejs",
-            {display_content:post_content[Number(req.body['action'].slice(4))],
-                i:Number(req.body['action'].slice(4)),
-                heading:headings[Number(req.body['action'].slice(4))]
+            {display_content:post_content[index],
+                i:index,
+                heading:headings[index]
             }
         )
     }
