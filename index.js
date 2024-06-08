@@ -8,6 +8,7 @@ let app = express();
 let port =3000;
 let post_count=0;
 let post_content=[];
+let headings=[];
 
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -21,18 +22,17 @@ app.post("/newpost",(req,res)=>{
 
 app.post("/create_new_post",(req,res)=>{
     post_content[post_count]=req.body["content"];
+    headings[post_count]=req.body["heading"];
     post_count++;
     res.render(__dirname+"/views/index.ejs",
-        {blogcreated:"yes",post_count:post_count,heading:req.body["heading"]}
+        {blogcreated:"yes",post_count:post_count,headings:headings}
     );
-    console.log(req.body);
 })
 
 app.post("/view_post",(req,res)=>{
     console.log(req.body);
     res.render(__dirname+"/views/view_post.ejs",
         {display_content:post_content[Number(req.body['action'].slice(4))-1]})
-
 })
 
 

@@ -11,7 +11,7 @@
     <%if(locals.post_count){
         for(let i=0 ; i<post_count; i++){ %>
             <form action="/view_post" method="post">
-            <button type="submit" name="action" value="post<%=i+1%>">hello</button>
+            <button type="submit" name="action" value="post<%=i+1%>"><%=headings[i]%></button>
         </form>
     <% }
      } %>
