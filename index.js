@@ -32,20 +32,29 @@ app.post("/create_new_post",(req,res)=>{
 app.post("/action_on_post",(req,res)=>{
     if(req.body["action"].slice(0,4)=="post"){
         res.render(__dirname+"/views/view_post.ejs",
-        {display_content:post_content[Number(req.body['action'].slice(4))-1]})
+        {display_content:post_content[Number(req.body['action'].slice(4))]})
     }
     else if(req.body["action"].slice(0,4)=="edit"){
         res.render(__dirname+"/views/edit_post.ejs",
-            {display_content:post_content[Number(req.body['action'].slice(4))-1],
+            {display_content:post_content[Number(req.body['action'].slice(4))],
                 i:Number(req.body['action'].slice(4))
             }
         )
+    }
+    else{
+        let idx = Number(req.body["action"].slice(3));
+        post_count--;
+        for(let i=idx ; i<headings.length-1 ; i++){
+            headings[idx]=headings[idx+1];
+            post_content[idx]=post_content[idx+1];
+        }
+        res.render(__dirname+"/views/index.ejs",{post_count:post_count,headings:headings});
     }
 })
 
 
 app.post("/edit_post",(req,res)=>{
-    post_content[Number(req.body["action"].slice(4))-1]=req.body["edited_content"];
+    post_content[Number(req.body["action"].slice(4))]=req.body["edited_content"];
     res.render(__dirname+"/views/index.ejs",
         {blogedited:"yes",post_count:post_count,headings:headings}
     );
