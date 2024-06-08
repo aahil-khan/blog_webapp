@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Your posts</h1>
+    <%if(locals.post_count){
+        for(let i=0 ; i<post_count; i++){ %>
+            <form action="/view_post" method="post">
+            <button type="submit" name="action" value="post<%=i+1%>">hello</button>
+        </form>
+    <% }
+     } %>
+    
+    <br><br>
+    <form action="/newpost" method="POST">
+        <input type="submit" value="Create new post">
+        <!--fix empty posts-->
+    </form>
+
+    <% if(locals.blogcreated){ %>
+        <p>Your post has been created!</p>
+        <!--post viewing to be added here-->
+    <% } %>
+
+</body>
+</html>
